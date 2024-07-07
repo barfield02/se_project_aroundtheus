@@ -7,20 +7,28 @@
   display: grid;
   grid-template-areas: "title button" "description description";
   grid-template-columns: minmax(auto, 375px) auto;
-  width: 415px;
-  height: 77px;
+  width: 100%;
+  max-height: 77px;
 }
-.profile_edit-button {
+.profile__edit-button {
   background: transparent url(../images/Edit\ Button.svg) center no-repeat;
   height: 24px;
   width: 24px;
   grid-area: button;
+  border: 1px;
+  border-style: solid;
+  border-color: #fff;
+  cursor: pointer;
 }
 .profile__add-button {
   background: transparent url(../images/plus-sign.svg) center no-repeat;
   width: 150px;
   height: 50px;
   margin-left: auto;
+  border: 2px;
+  border-style: solid;
+  border-color: #fff;
+  cursor: pointer;
 }
 .profile__title {
   font-family: Inter, Arial, sans-serif;
@@ -30,6 +38,7 @@
   color: #ffffff;
   grid-area: title;
   margin: 0;
+  max-width: 373px;
 }
 .profile__description {
   font-family: Inter, Arial, sans-serif;
@@ -39,6 +48,10 @@
   color: #ffffff;
   grid-area: description;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 415px;
 }
 .profile__image {
   height: 120px;
@@ -68,7 +81,7 @@
     width: 282px;
     height: 50px;
   }
-  .card__list {
+  .cards__list {
     margin-top: 36px;
   }
 }

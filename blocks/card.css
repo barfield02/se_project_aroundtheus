@@ -1,27 +1,15 @@
-.cards {
-  margin-top: 30px;
-  height: 742px;
-}
-
-.card__list {
-  display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(auto-fit, 282px);
-  grid-gap: 20px 17px;
-  padding: 0;
-  margin: 0;
-  margin-top: 51px;
-}
 .card {
   display: flex;
   flex-direction: column;
   list-style: none;
   border-radius: 10px;
+  overflow: hidden;
 }
 
 .card__image {
   width: 282px;
   height: 282px;
+  object-fit: cover;
 }
 .card__description {
   display: flex;
@@ -50,4 +38,6 @@
   height: 18px;
   margin: 0;
   margin-right: 31px;
+  border: none;
+  cursor: pointer;
 }
