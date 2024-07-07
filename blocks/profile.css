@@ -32,7 +32,7 @@
   margin: 0;
 }
 .profile__description {
-  font-family: "Inter-regular", Arial, sans-serif;
+  font-family: Inter, Arial, sans-serif;
   font-size: 18px;
   line-height: 22px;
   font-weight: 400;
