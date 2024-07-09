@@ -1,6 +1,7 @@
 .page {
   background-color: #000;
   color: white;
+  margin: 0;
 }
 .page__section {
   max-width: 880px;
