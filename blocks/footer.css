@@ -1,7 +1,7 @@
 .footer {
   padding: 0 20px;
   max-width: 880px;
-  margin: 67px auto 60px auto;
+  margin: 48px auto 36px;
 }
 
 .footer__copyright {
@@ -13,4 +13,9 @@
   height: 18px;
   margin: 0;
   line-height: 21px;
+}
+@media screen and (max-width: 690px) {
+  .footer__copyright {
+    font-size: 14px;
+  }
 }
