@@ -7,7 +7,6 @@
   display: grid;
   grid-template-areas: "title button" "description description";
   grid-template-columns: minmax(auto, 375px) auto;
-  width: 100%;
   align-items: baseline;
 }
 .profile__edit-button {
@@ -98,6 +97,8 @@
   .profile__title {
     font-size: 22px;
     max-width: 222px;
+    line-height: 26px;
+    margin-bottom: 14px;
   }
   .profile__edit-button {
     height: 18px;
