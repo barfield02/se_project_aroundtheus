@@ -34,6 +34,7 @@
   border-style: solid;
   border-color: #fff;
   cursor: pointer;
+  padding: 0;
 }
 .profile__add-button:hover {
   opacity: 0.6;
