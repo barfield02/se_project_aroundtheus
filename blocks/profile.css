@@ -8,7 +8,6 @@
   grid-template-areas: "title button" "description description";
   grid-template-columns: minmax(auto, 375px) auto;
   width: 100%;
-  min-height: 77px;
   align-items: baseline;
 }
 .profile__edit-button {
