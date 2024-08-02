@@ -26,8 +26,6 @@ const initialCards = [
   },
 ];
 
-console.log(initialCards);
-
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const modalCloseButton = document.querySelector("#modal-close-button");
@@ -37,7 +35,8 @@ const profileTitleInput = document.querySelector("#profile-title-input");
 const profileDescriptionInput = document.querySelector(
   "#profile-description-input"
 );
-const cardListEl = document.querySelector(".card__list");
+
+const cardListEl = document.querySelector(".cards__list");
 const profileEditForm = profileEditModal.querySelector(".modal__form");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
@@ -53,8 +52,9 @@ function getCardElement(cardData) {
   const cardImageEl = cardElement.querySelector(".card__image");
   const cardTitleEl = cardElement.querySelector(".card__title");
   // set the path to the image to the link field of the object
-
+  cardImageEl.src = cardData.link;
   // set the image alt text to the name field of the object
+  cardImageEl.alt = cardData.name;
   // set the card title to the name field of the object, too
   cardTitleEl.textContent = cardData.name;
   // return the ready HTML element with the filled-in data
