@@ -34,6 +34,7 @@
   margin: 0;
   max-width: 220px;
 }
+
 .card__like-button {
   background: transparent url(../images/heart.svg) center no-repeat;
   width: 21px;
@@ -41,6 +42,9 @@
   margin: 0;
   border: none;
   cursor: pointer;
+}
+.card__like-button_active {
+  background-image: url(../images/active.heart.svg);
 }
 .card__like-button:hover {
   opacity: 0.5;
