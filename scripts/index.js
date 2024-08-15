@@ -25,10 +25,18 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
   },
 ];
+
+const addCardModal = document.querySelector("#add-card-modal");
+const addCardFormElement = addCardModal.querySelector("#add-card-form");
+
+const cardTitleInput = addCardFormElement.querySelector("#profile-title-input");
+const cardDescriptionInput = addCardFormElement.querySelector(
+  "#profile-description-input"
+);
+const addCardForm = addCardModal.querySelector("#add-card-form");
 const AddCardCloseButton = document.querySelector("#modal-add-close-button");
 const addNewCardButton = document.querySelector(".profile__add-button");
-const addCardModal = document.querySelector("#add-card-modal");
-// const addCardForm = addCardModal.querySelector(".modal__form");
+
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
 const editProfileCloseButton = document.querySelector(
@@ -81,8 +89,16 @@ function handleProfileEditSubmit(e) {
 
 function handleAddCardFormSubmit(e) {
   e.preventDefault();
+  const name = cardTitleInput.value;
+  const link = cardDescriptionInput.value;
+  renderCard({ name, link });
 
-  closePopup(profileEditModal);
+  closePopup(addCardModal);
+}
+
+function renderCard(cardData) {
+  const cardElement = getCardElement(cardData);
+  cardListEl.prepend(cardElement);
 }
 
 // opening the edit-profile modal by clicking the profile edit button (the pencil icon)
@@ -103,12 +119,11 @@ AddCardCloseButton.addEventListener("click", () => {
 });
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
+addCardFormElement.addEventListener("submit", handleAddCardFormSubmit);
+
 // open modal
 addNewCardButton.addEventListener("click", () => {
   addCardModal.classList.add("modal_opened");
 });
 
-initialCards.forEach((cardData) => {
-  const cardElement = getCardElement(cardData);
-  cardListEl.prepend(cardElement);
-});
+initialCards.forEach((cardData) => renderCard(cardData));
