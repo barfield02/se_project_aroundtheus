@@ -51,7 +51,13 @@
 }
 
 .card__delete-button {
-  background: transparent url(../images/Trash.svg) center no-repeat;
+  background: url(../images/Trash.svg) center no-repeat;
+  width: 18px;
+  height: 19px;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  bottom: 279px;
+  color: rgba(255, 255, 255, 1);
+  border: none;
 }
-width: 18px;
-height: 19px;

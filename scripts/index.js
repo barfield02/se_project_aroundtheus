@@ -54,6 +54,14 @@ const profileEditForm = profileEditModal.querySelector(".modal__form");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
+const addImageCardModal = document.querySelector("#add-image-card-modal");
+const addImageCardForm = addImageCardModal.querySelector(
+  "#add-image-card-form"
+);
+const addImageCardCloseButton =
+  addImageCardModal.querySelector(".modal__close");
+const imageCaption = addImageCardModal.querySelector(".modal__caption");
+const modalImage = addImageCardModal.querySelector(".modal__image");
 function closePopup(modal) {
   modal.classList.remove("modal_opened");
 }
@@ -72,11 +80,22 @@ function getCardElement(cardData) {
   cardImageEl.alt = cardData.name;
   // set the card title to the name field of the object, too
   cardTitleEl.textContent = cardData.name;
-  // return the ready HTML element with the filled-in data
+
   const likeButton = cardElement.querySelector(".card__like-button");
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_active");
   });
+  const cardDeleteButton = cardElement.querySelector(".card__delete-button");
+  cardDeleteButton.addEventListener("click", () => {
+    cardElement.remove();
+  });
+
+  cardImageEl.addEventListener("click", () => {
+    modalImage.src = cardData.link;
+    addImageCardModal.classList.add("modal_opened");
+    imageCaption.textContent = cardData.name;
+  });
+  // return the ready HTML element with the filled-in data
   return cardElement;
 }
 
@@ -116,6 +135,11 @@ editProfileCloseButton.addEventListener("click", () => {
 //close the addCardModal by clicking the close button
 AddCardCloseButton.addEventListener("click", () => {
   closePopup(addCardModal);
+});
+
+//close the addImageCardModal
+addImageCardCloseButton.addEventListener("click", () => {
+  closePopup(addImageCardModal);
 });
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);

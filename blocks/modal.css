@@ -21,6 +21,10 @@
   padding: 36px;
   border-radius: 10px;
 }
+.modal__container_type_preview {
+  background-color: transparent;
+  padding: 0;
+}
 
 .modal__close {
   border: none;
@@ -79,6 +83,14 @@
 
 .modal__button:hover {
   opacity: 80%;
+}
+
+.modal__image {
+  width: 433px;
+  height: 540px;
+  background-image: cover;
+}
+.modal__caption {
 }
 
 @media screen and (max-width: 690px) {
