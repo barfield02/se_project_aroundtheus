@@ -11,7 +11,7 @@
   justify-content: center;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s linear 0.5s opacity 0.5s linear;
+  transition: visibility 0s linear 0.5s, opacity 0.5s linear;
 }
 
 .modal_opened {
@@ -49,6 +49,7 @@
 
 .modal__heading {
   margin-bottom: 54px;
+  margin-top: 0;
   color: #000;
   width: 330px;
   height: 23px;
