@@ -1,13 +1,23 @@
+const formElements = document.querySelectorAll(".modal__form");
+const inputElements = document.querySelectorAll(".modal__input");
+const inactiveButtonClass = document.querySelector(".modal__button_disabled");
+const hasInvalidInput = (inputElements) => {
+  return inputList.some((inputList) => {
+    return !inputElements.validity.valid;
+  });
+};
+const inputList = [...document.querySelectorAll(".modal__input")];
+
 function showInputError(
-  formElement,
-  inputElement,
+  formElements,
+  inputElements,
   { inputErrorClass, errorClass }
 ) {
-  const errorMessageEl = formElement.querySelector(
-    "#" + inputElement.id + "-error"
+  const errorMessageEl = formElements.querySelector(
+    "#" + inputElements.id + "-error"
   );
-  inputElement.classList.add(inputErrorClass);
-  errorMessageEl.textContent = inputElement.validationMessage;
+  inputElements.classList.add(inputErrorClass);
+  errorMessageEl.textContent = inputElements.validationMessage;
   errorMessageEl.classList.add(errorClass);
 }
 
@@ -25,7 +35,7 @@ function hideInputError(
 }
 
 function checkInputValidity(formElement, inputElement, options) {
-  console.log(inputElement.validity.valid);
+  console.log(inputElement.validity);
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, options);
   } else {
@@ -33,16 +43,38 @@ function checkInputValidity(formElement, inputElement, options) {
   }
 }
 
-function toggleButtonState(inputElement, submitButton) {
-  const foundInvalid = false;
-  inputElement.forEach((inputElement) => {
-    if (!inputElement.validity.valid) {
+function toggleButtonState(inputElement, submitButton, inactiveButtonClass) {
+  let foundInvalid = false;
+
+  inputElements.forEach((inputElements) => {
+    if (!inputElements.validity.valid) {
       foundInvalid = true;
     }
   });
+
   if (foundInvalid) {
     submitButton.classList.add(inactiveButtonClass);
+    return (submitButton.disabled = true);
   }
+  submitButton.classList.remove(inactiveButtonClass);
+  submitButton.disabled = false;
+
+  // if (hasInvalidInput(inputElement)) {
+  //  submitButton.classList.add(inactiveButtonClass);
+  //  submitButton.disabled = true;
+  // } else {
+  //  submitButton.classList.remove(inactiveButtonClass);
+  //  submitButton.disabled = false;
+  // }
+  //const foundInvalid = false;
+  //inputElements.forEach((inputElement) => {
+  //if (!inputElement.validity.valid) {
+  // foundInvalid = true;
+  //}
+  //});
+  //if (foundInvalid) {
+  //submitButton.classList.add(inactiveButtonClass);
+  // }
 }
 
 function setEventListeners(formElement, options) {

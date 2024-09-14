@@ -53,7 +53,7 @@
               maxlenth="40"
               required
             />
-            <span class="popup__error"></span>
+            <span class="popup__error" id="profile-title-input-error"></span>
             <input
               class="modal__input"
               type="text"
@@ -64,9 +64,12 @@
               maxlength="200"
               required
             />
-            <span class="popup__error"></span>
+            <span
+              class="popup__error"
+              id="profile-description-input-error"
+            ></span>
           </div>
-          <button class="modal__button">Save</button>
+          <button class="modal__button modal__button_disabled">Save</button>
         </form>
       </div>
     </div>
@@ -80,14 +83,14 @@
             <input
               class="modal__input"
               type="text"
-              id="profile-title-input"
+              id="add-card-title-input"
               name="Title"
               placeholder="Title"
               minlength="1"
               maxlength="30"
               required
             />
-            <span class="popup__error" id="profile-title-input-error"></span>
+            <span class="popup__error" id="add-card-title-input"></span>
             <input
               class="modal__input"
               type="text"
@@ -97,10 +100,10 @@
             />
             <span
               class="popup__error"
-              id="profile-description-input-error"
+              id="add-card-description-input-error"
             ></span>
           </div>
-          <button class="modal__button">Save</button>
+          <button class="modal__button modal__button_disabled">Save</button>
         </form>
       </div>
     </div>
