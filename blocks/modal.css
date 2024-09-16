@@ -24,6 +24,8 @@
   background-color: #fff;
   padding: 36px;
   border-radius: 10px;
+  box-sizing: border-box;
+  max-width: 430px;
 }
 .modal__container_type_preview {
   background-color: transparent;
@@ -73,6 +75,23 @@
   font-size: 14px;
   line-height: 17px;
 }
+.modal__input_type_error:invalid {
+  border-bottom: 1px solid red;
+}
+.modal__input_type_error:valid {
+  border-bottom: 1px solid green;
+}
+.modal__error {
+  color: red;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 14.5px;
+}
+
+.modal__error_visible {
+  visibility: visible;
+}
+
 .modal__button {
   padding: 0;
   width: 358px;
@@ -123,7 +142,6 @@
   .modal__container {
     width: 282px;
     padding: 25px 22px;
-    box-sizing: border-box;
   }
   .modal__button {
     width: 238px;

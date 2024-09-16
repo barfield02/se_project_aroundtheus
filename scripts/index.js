@@ -29,9 +29,11 @@ const initialCards = [
 const addCardModal = document.querySelector("#add-card-modal");
 const addCardFormElement = addCardModal.querySelector("#add-card-form");
 
-const cardTitleInput = addCardFormElement.querySelector("#profile-title-input");
+const cardTitleInput = addCardFormElement.querySelector(
+  "#add-card-title-input"
+);
 const cardDescriptionInput = addCardFormElement.querySelector(
-  "#profile-description-input"
+  "#add-card-description-input"
 );
 const addCardForm = addCardModal.querySelector("#add-card-form");
 const addCardCloseButton = document.querySelector("#modal-add-close-button");
@@ -62,13 +64,32 @@ const addImageCardCloseButton =
   addImageCardModal.querySelector(".modal__close");
 const imageCaption = addImageCardModal.querySelector(".modal__caption");
 const modalImage = addImageCardModal.querySelector(".modal__image");
+
+function handleEscape(evt) {
+  if (evt.key === "Escape") {
+    console.log("Escape key pressed");
+    const openModal = document.querySelector(".modal_opened");
+
+    closePopup(openModal);
+  }
+}
+document.addEventListener("keydown", handleEscape);
+//document.removeEventListener("keydown", handleEscape);
+
 function closePopup(modal) {
   modal.classList.remove("modal_opened");
 }
 function openPopup(popup) {
   popup.classList.add("modal_opened");
+  //document.addEventListener("keydown", handleEscape);
 }
-//closePopup(profileEditModal)
+[addImageCardModal, profileEditModal, addCardModal].forEach((modal) => {
+  modal.addEventListener("click", (evt) => {
+    if (evt.target.classList.contains("modal")) {
+      evt.target.classList.remove("modal_opened");
+    }
+  });
+});
 
 function getCardElement(cardData) {
   // clone the template element with all its content and store it in a cardElement variable
