@@ -74,6 +74,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
+  width: 100%;
 }
 .modal__input_type_error:invalid {
   border-bottom: 1px solid red;
@@ -86,6 +87,8 @@
   font-family: Inter, Arial, sans-serif;
   font-size: 12px;
   line-height: 14.5px;
+  position: absolute;
+  top: 23px;
 }
 
 .modal__error_visible {
@@ -127,6 +130,10 @@
   line-height: 14px;
   margin: 0;
   margin-top: 10px;
+}
+
+.modal__label {
+  position: relative;
 }
 
 @media screen and (max-width: 690px) {

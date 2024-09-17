@@ -1,14 +1,11 @@
-const formElements = document.querySelectorAll(".modal__form");
-
 // const inputElements = document.querySelectorAll(".modal__input");
 const inactiveButtonClass = document.querySelector(".modal__button_disabled");
-const hasInvalidInput = (inputElements) => {
-  return inputList.some((inputList) => {
-    return !inputElements.validity.valid;
-  });
-};
+//const hasInvalidInput = (inputElements) => {
+// return inputList.some((inputList) => {
+// return !inputElements.validity.valid;
+// });
+//};
 //const inputList = [...document.querySelectorAll(".modal__input")];
-
 function showInputError(
   formElements,
   inputElements,
@@ -118,18 +115,6 @@ function enableValidation(options) {
     // reset error messages
   });
 }
-
-//function handleEscape(evt) {
-// handle it, check evt.key
-//}
-
-//function closePopup(modal) {
-// modal.classList.remove("modal_opened");
-//}
-//function openPopup(popup) {
-// popup.classList.add("modal_opened");
-// document.addEventListener("keydown", handleEscape);
-//}
 
 const config = {
   formSelector: ".modal__form",

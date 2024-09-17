@@ -64,10 +64,9 @@ const addImageCardCloseButton =
   addImageCardModal.querySelector(".modal__close");
 const imageCaption = addImageCardModal.querySelector(".modal__caption");
 const modalImage = addImageCardModal.querySelector(".modal__image");
-
+const modal = document.querySelector(".modal");
 function handleEscape(evt) {
   if (evt.key === "Escape") {
-    console.log("Escape key pressed");
     const openModal = document.querySelector(".modal_opened");
 
     closePopup(openModal);
@@ -86,7 +85,7 @@ function openPopup(popup) {
 [addImageCardModal, profileEditModal, addCardModal].forEach((modal) => {
   modal.addEventListener("click", (evt) => {
     if (evt.target.classList.contains("modal")) {
-      evt.target.classList.remove("modal_opened");
+      closePopup(modal);
     }
   });
 });
@@ -103,7 +102,6 @@ function getCardElement(cardData) {
   cardImageEl.alt = cardData.name;
   // set the card title to the name field of the object, too
   cardTitleEl.textContent = cardData.name;
-  modalImage.alt = cardData.link;
 
   const likeButton = cardElement.querySelector(".card__like-button");
   likeButton.addEventListener("click", () => {
