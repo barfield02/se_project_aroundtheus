@@ -1,5 +1,5 @@
 // const inputElements = document.querySelectorAll(".modal__input");
-const inactiveButtonClass = document.querySelector(".modal__button_disabled");
+// const inactiveButtonClass = document.querySelector(".modal__button_disabled");
 //const hasInvalidInput = (inputElements) => {
 // return inputList.some((inputList) => {
 // return !inputElements.validity.valid;
@@ -85,7 +85,7 @@ function setEventListeners(formElement, options) {
   const inputElements = [
     ...formElement.querySelectorAll(options.inputSelector),
   ]; // check inputSelector
-  const submitButton = formElement.querySelector(".modal__button");
+  const submitButton = formElement.querySelector(options.submitButtonSelector);
 
   // console.log(inputElements); // check how many inputs there are in your form
 
@@ -98,7 +98,7 @@ function setEventListeners(formElement, options) {
 }
 
 function enableValidation(options) {
-  const formElements = document.querySelectorAll(".modal__form");
+  const formElements = document.querySelectorAll(options.formSelector);
   formElements.forEach((formElement) => {
     formElement.addEventListener("submit", (e) => {
       e.preventDefault();

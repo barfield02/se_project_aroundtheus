@@ -68,19 +68,21 @@ const modal = document.querySelector(".modal");
 function handleEscape(evt) {
   if (evt.key === "Escape") {
     const openModal = document.querySelector(".modal_opened");
-
-    closePopup(openModal);
+    if (openModal) {
+      closePopup(openModal);
+    }
   }
 }
-document.addEventListener("keydown", handleEscape);
+//document.addEventListener("keydown", handleEscape);
 //document.removeEventListener("keydown", handleEscape);
 
 function closePopup(modal) {
   modal.classList.remove("modal_opened");
+  document.removeEventListener("keydown", handleEscape);
 }
 function openPopup(popup) {
   popup.classList.add("modal_opened");
-  //document.addEventListener("keydown", handleEscape);
+  document.addEventListener("keydown", handleEscape);
 }
 [addImageCardModal, profileEditModal, addCardModal].forEach((modal) => {
   modal.addEventListener("click", (evt) => {
@@ -152,18 +154,26 @@ profileEditButton.addEventListener("click", () => {
 });
 
 // close the edit-profile modal by clicking the close button
-editProfileCloseButton.addEventListener("click", () => {
-  closePopup(profileEditModal);
-});
+//editProfileCloseButton.addEventListener("click", () => {
+//closePopup(profileEditModal);
+//});
 
 //close the addCardModal by clicking the close button
-addCardCloseButton.addEventListener("click", () => {
-  closePopup(addCardModal);
-});
+//addCardCloseButton.addEventListener("click", () => {
+// closePopup(addCardModal);
+//});
 
 //close the addImageCardModal
-addImageCardCloseButton.addEventListener("click", () => {
-  closePopup(addImageCardModal);
+//addImageCardCloseButton.addEventListener("click", () => {
+//closePopup(addImageCardModal);
+//});
+const closeButtons = document.querySelectorAll(".modal__close");
+
+closeButtons.forEach((button) => {
+  // Find the closest popup only once
+  const popup = button.closest(".modal");
+  // Set the listener
+  button.addEventListener("click", () => closePopup(popup));
 });
 
 profileEditForm.addEventListener("submit", handleProfileEditSubmit);
