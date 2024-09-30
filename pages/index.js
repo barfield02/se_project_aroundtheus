@@ -1,3 +1,6 @@
+import Card from "../scripts/Card.js";
+import FormValidator from "../scripts/formValidator.js";
+
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -73,8 +76,6 @@ function handleEscape(evt) {
     }
   }
 }
-//document.addEventListener("keydown", handleEscape);
-//document.removeEventListener("keydown", handleEscape);
 
 function closePopup(modal) {
   modal.classList.remove("modal_opened");
@@ -124,6 +125,13 @@ function getCardElement(cardData) {
   return cardElement;
 }
 
+function handleCardClick() {
+  modalImage.src = cardData.link;
+  modalImage.alt = cardData.name;
+  openPopup(addImageCardModal);
+  imageCaption.textContent = cardData.name;
+}
+
 function handleProfileEditSubmit(e) {
   e.preventDefault();
   profileTitle.textContent = profileTitleInput.value;
@@ -139,12 +147,35 @@ function handleAddCardFormSubmit(e) {
   e.target.reset();
   // addCardFormElement.reset();
   closePopup(addCardModal);
+  addFormValidator.disableButton();
 }
 
 function renderCard(cardData) {
-  const cardElement = getCardElement(cardData);
+  // const cardElement = getCardElement(cardData);
+  const card = new Card(cardData, "#card-template", handleCardClick);
+  const cardElement = card.getView();
   cardListEl.prepend(cardElement);
 }
+
+const validationSettings = {
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__button",
+  inactiveButtonClass: "modal__button_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible",
+};
+
+const editFormElement = profileEditModal.querySelector(".modal__form");
+const addFormElement = addCardModal.querySelector(".modal__form");
+
+const editFormValidator = new FormValidator(
+  validationSettings,
+  editFormElement
+);
+editFormValidator.enableValidation();
+
+const addFormValidator = new FormValidator(validationSettings, addFormElement);
+addFormValidator.enableValidation();
 
 // opening the edit-profile modal by clicking the profile edit button (the pencil icon)
 profileEditButton.addEventListener("click", () => {
