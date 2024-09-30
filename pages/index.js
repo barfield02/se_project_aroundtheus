@@ -126,10 +126,10 @@ function getCardElement(cardData) {
 }
 
 function handleCardClick() {
-  modalImage.src = cardData.link;
-  modalImage.alt = cardData.name;
+  modalImage.src = this._link;
+  modalImage.alt = this._name;
   openPopup(addImageCardModal);
-  imageCaption.textContent = cardData.name;
+  imageCaption.textContent = this._name;
 }
 
 function handleProfileEditSubmit(e) {

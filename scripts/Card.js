@@ -30,6 +30,12 @@ export default class Card {
   _handleLikeIcon() {
     this._likeButton.classList.toggle("card__like-button_active");
   }
+  _handleCardClick() {
+    modalImage.src = this._link;
+    modalImage.alt = this._name;
+    openPopup(addImageCardModal);
+    imageCaption.textContent = this._name;
+  }
   getView() {
     this._cardElement = document
       .querySelector(this._cardSelector)
