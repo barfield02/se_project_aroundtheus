@@ -1,5 +1,5 @@
-import Card from "../scripts/Card.js";
-import FormValidator from "../scripts/formValidator.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
 
 const initialCards = [
   {
@@ -91,11 +91,11 @@ function openPopup(popup) {
   });
 });
 
-function handleCardClick() {
-  modalImage.src = this.link;
-  modalImage.alt = this.name;
+function handleCardClick(card) {
+  modalImage.src = card.link;
+  modalImage.alt = card.name;
   openPopup(addImageCardModal);
-  imageCaption.textContent = this.name;
+  imageCaption.textContent = card.name;
 }
 
 function handleProfileEditSubmit(e) {
@@ -136,16 +136,19 @@ const validationSettings = {
   errorClass: "modal__error_visible",
 };
 
-const editFormElement = profileEditModal.querySelector(".modal__form");
-const addFormElement = addCardModal.querySelector(".modal__form");
+// const editFormElement = profileEditModal.querySelector(".modal__form");
+// const addFormElement = addCardModal.querySelector(".modal__form");
 
 const editFormValidator = new FormValidator(
   validationSettings,
-  editFormElement
+  profileEditForm
 );
 editFormValidator.enableValidation();
 
-const addFormValidator = new FormValidator(validationSettings, addFormElement);
+const addFormValidator = new FormValidator(
+  validationSettings,
+  addCardFormElement
+);
 addFormValidator.enableValidation();
 
 // opening the edit-profile modal by clicking the profile edit button (the pencil icon)
