@@ -79,25 +79,20 @@ function handleEscape(evt) {
   }
 }
 
-function closePopup(modal) {
-  modal.classList.remove("modal_opened");
-  document.removeEventListener("keydown", handleEscape);
-}
-function openPopup(popup) {
-  popup.classList.add("modal_opened");
-  document.addEventListener("keydown", handleEscape);
-}
+//function closePopup(modal) {
+//modal.classList.remove("modal_opened");
+//document.removeEventListener("keydown", handleEscape);
+//}
+//function openPopup(popup) {
+//popup.classList.add("modal_opened");
+//document.addEventListener("keydown", handleEscape);
+//}
 
 function handleCardClick(data) {
   popupWithImage.open(data);
 }
 function handleProfileEditSubmit(inputValues) {
-  userInfo.setUserInfo(inputValues.title, inputValues.value);
-
-  // profileTitle.textContent = profileTitleInput.value;
-  // profileDescription.textContent = profileDescriptionInput.value;
-
-  //closePopup(profileEditModal);
+  userInfo.setUserInfo(inputValues.title, inputValues.description);
   popupEditWithForm.close();
 }
 
@@ -158,12 +153,6 @@ const popupAddWithForm = new PopupWithForm(
 );
 popupAddWithForm.setEventListeners();
 
-// profileEditForm.addEventListener("click", () => {});
-// addCardFormElement.addEventListener("click", () => {});
-
-// Call it's setEventListeners() method
-// Do this once for each form
-
 const popupWithImage = new PopupWithImage({
   popupSelector: "#add-image-card-modal",
 });
@@ -189,13 +178,10 @@ profileEditButton.addEventListener("click", () => {
   const info = userInfo.getUserInfo();
   profileTitleInput.value = info.name;
   profileDescriptionInput.value = info.description;
-
-  // call popup's open method instead
-  //openPopup(profileEditModal);
   popupEditWithForm.open();
 });
 
-const closeButtons = document.querySelectorAll(".modal__close");
+//const closeButtons = document.querySelectorAll(".modal__close");
 // remove: closing will be handled by popup class
 
 //closeButtons.forEach((button) => {
