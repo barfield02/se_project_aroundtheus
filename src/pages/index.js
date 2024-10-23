@@ -1,6 +1,10 @@
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
+import Section from "../components/Section.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
-
+import "./index.css";
 const initialCards = [
   {
     name: "Yosemite Valley",
@@ -83,36 +87,28 @@ function openPopup(popup) {
   popup.classList.add("modal_opened");
   document.addEventListener("keydown", handleEscape);
 }
-[addImageCardModal, profileEditModal, addCardModal].forEach((modal) => {
-  modal.addEventListener("click", (evt) => {
-    if (evt.target.classList.contains("modal")) {
-      closePopup(modal);
-    }
-  });
-});
 
-function handleCardClick(card) {
-  modalImage.src = card.link;
-  modalImage.alt = card.name;
-  openPopup(addImageCardModal);
-  imageCaption.textContent = card.name;
+function handleCardClick(data) {
+  popupWithImage.open(data);
+}
+function handleProfileEditSubmit(inputValues) {
+  userInfo.setUserInfo(inputValues.title, InputValues.value);
+
+  // profileTitle.textContent = profileTitleInput.value;
+  // profileDescription.textContent = profileDescriptionInput.value;
+
+  //closePopup(profileEditModal);
+  popupEditWithForm.close();
 }
 
-function handleProfileEditSubmit(e) {
-  e.preventDefault();
-  profileTitle.textContent = profileTitleInput.value;
-  profileDescription.textContent = profileDescriptionInput.value;
-  closePopup(profileEditModal);
-}
-
-function handleAddCardFormSubmit(e) {
-  e.preventDefault();
-  const name = cardTitleInput.value;
-  const link = cardDescriptionInput.value;
+function handleAddCardFormSubmit(inputValues) {
+  const name = inputValues.title;
+  const link = inputValues.value;
   renderCard({ name, link });
-  e.target.reset();
   // addCardFormElement.reset();
-  closePopup(addCardModal);
+  // closePopup(addCardModal);
+  popupAddWithForm.close();
+  popupAddWithForm.resetForm();
   addFormValidator.disableButton();
 }
 
@@ -125,7 +121,8 @@ function renderCard(cardData) {
   // const cardElement = getCardElement(cardData);
 
   const cardElement = createCard(cardData);
-  cardListEl.prepend(cardElement);
+  section.addItem(cardElement);
+  // cardListEl.prepend(cardElement);
 }
 
 const validationSettings = {
@@ -135,9 +132,6 @@ const validationSettings = {
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__error_visible",
 };
-
-// const editFormElement = profileEditModal.querySelector(".modal__form");
-// const addFormElement = addCardModal.querySelector(".modal__form");
 
 const editFormValidator = new FormValidator(
   validationSettings,
@@ -151,42 +145,72 @@ const addFormValidator = new FormValidator(
 );
 addFormValidator.enableValidation();
 
+const popupEditWithForm = new PopupWithForm(
+  "#profile-edit-modal",
+  handleProfileEditSubmit
+);
+popupEditWithForm.setEventListeners();
+
+const popupAddWithForm = new PopupWithForm(
+  "#add-card-modal",
+  handleAddCardFormSubmit
+);
+popupAddWithForm.setEventListeners();
+
+// profileEditForm.addEventListener("click", () => {});
+// addCardFormElement.addEventListener("click", () => {});
+
+// Call it's setEventListeners() method
+// Do this once for each form
+
+const popupWithImage = new PopupWithImage({
+  popupSelector: "#add-image-card-modal",
+});
+popupWithImage.setEventListeners();
+
+const section = new Section({
+  renderer: (item) => {
+    const card = createCard(item);
+    section.addItem(card);
+  },
+  selector: ".cards__list",
+});
+
+section.renderItems(initialCards);
+
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
+  descriptionSelector: ".profile__description",
+});
+
 // opening the edit-profile modal by clicking the profile edit button (the pencil icon)
 profileEditButton.addEventListener("click", () => {
-  profileTitleInput.value = profileTitle.textContent;
-  profileDescriptionInput.value = profileDescription.textContent;
-  openPopup(profileEditModal);
+  const info = userInfo.getUserInfo();
+  profileTitleInput.value = info.name;
+  profileDescriptionInput.value = info.description;
+
+  // call popup's open method instead
+  //openPopup(profileEditModal);
+  popupEditWithForm.open();
 });
 
-// close the edit-profile modal by clicking the close button
-//editProfileCloseButton.addEventListener("click", () => {
-//closePopup(profileEditModal);
-//});
-
-//close the addCardModal by clicking the close button
-//addCardCloseButton.addEventListener("click", () => {
-// closePopup(addCardModal);
-//});
-
-//close the addImageCardModal
-//addImageCardCloseButton.addEventListener("click", () => {
-//closePopup(addImageCardModal);
-//});
 const closeButtons = document.querySelectorAll(".modal__close");
+// remove: closing will be handled by popup class
 
-closeButtons.forEach((button) => {
-  // Find the closest popup only once
-  const popup = button.closest(".modal");
-  // Set the listener
-  button.addEventListener("click", () => closePopup(popup));
-});
+//closeButtons.forEach((button) => {
+// Find the closest popup only once
+//  const popup = button.closest(".modal");
+// Set the listener
+//  button.addEventListener("click", () => closePopup(popup));
+// });
 
-profileEditForm.addEventListener("submit", handleProfileEditSubmit);
-addCardFormElement.addEventListener("submit", handleAddCardFormSubmit);
+// also remove submission listeners bc popupwithform will handle this
+// profileEditForm.addEventListener("submit", handleProfileEditSubmit);
+// addCardFormElement.addEventListener("submit", handleAddCardFormSubmit);
 
 // open modal
 addNewCardButton.addEventListener("click", () => {
-  openPopup(addCardModal);
+  popupAddWithForm.open();
 });
 
-initialCards.forEach((cardData) => renderCard(cardData));
+//initialCards.forEach((cardData) => renderCard(cardData));
