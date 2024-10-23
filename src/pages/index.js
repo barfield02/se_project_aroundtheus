@@ -92,7 +92,7 @@ function handleCardClick(data) {
   popupWithImage.open(data);
 }
 function handleProfileEditSubmit(inputValues) {
-  userInfo.setUserInfo(inputValues.title, InputValues.value);
+  userInfo.setUserInfo(inputValues.title, inputValues.value);
 
   // profileTitle.textContent = profileTitleInput.value;
   // profileDescription.textContent = profileDescriptionInput.value;
@@ -103,7 +103,8 @@ function handleProfileEditSubmit(inputValues) {
 
 function handleAddCardFormSubmit(inputValues) {
   const name = inputValues.title;
-  const link = inputValues.value;
+  const link = inputValues["image-url"];
+
   renderCard({ name, link });
   // addCardFormElement.reset();
   // closePopup(addCardModal);
