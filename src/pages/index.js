@@ -5,33 +5,7 @@ import Section from "../components/Section.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import "./index.css";
-const initialCards = [
-  {
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
-  },
-
-  {
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lake-louise.jpg",
-  },
-  {
-    name: "Bald Mountains",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
-  },
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
-  },
-  {
-    name: "Vanoise National Park",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/vanoise.jpg",
-  },
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
-  },
-];
+import { initialCards, validationSettings } from "../utils/constants.js";
 
 const addCardModal = document.querySelector("#add-card-modal");
 const addCardFormElement = addCardModal.querySelector("#add-card-form");
@@ -79,18 +53,10 @@ function handleEscape(evt) {
   }
 }
 
-//function closePopup(modal) {
-//modal.classList.remove("modal_opened");
-//document.removeEventListener("keydown", handleEscape);
-//}
-//function openPopup(popup) {
-//popup.classList.add("modal_opened");
-//document.addEventListener("keydown", handleEscape);
-//}
-
 function handleCardClick(data) {
   popupWithImage.open(data);
 }
+
 function handleProfileEditSubmit(inputValues) {
   userInfo.setUserInfo(inputValues.title, inputValues.description);
   popupEditWithForm.close();
@@ -101,8 +67,6 @@ function handleAddCardFormSubmit(inputValues) {
   const link = inputValues["image-url"];
 
   renderCard({ name, link });
-  // addCardFormElement.reset();
-  // closePopup(addCardModal);
   popupAddWithForm.close();
   popupAddWithForm.resetForm();
   addFormValidator.disableButton();
@@ -120,14 +84,6 @@ function renderCard(cardData) {
   section.addItem(cardElement);
   // cardListEl.prepend(cardElement);
 }
-
-const validationSettings = {
-  inputSelector: ".modal__input",
-  submitButtonSelector: ".modal__button",
-  inactiveButtonClass: "modal__button_disabled",
-  inputErrorClass: "modal__input_type_error",
-  errorClass: "modal__error_visible",
-};
 
 const editFormValidator = new FormValidator(
   validationSettings,
@@ -160,8 +116,10 @@ popupWithImage.setEventListeners();
 
 const section = new Section({
   renderer: (item) => {
-    const card = createCard(item);
-    section.addItem(card);
+    // const card = createCard(item);
+
+    // section.addItem(card);
+    renderCard(item);
   },
   selector: ".cards__list",
 });
@@ -173,7 +131,6 @@ const userInfo = new UserInfo({
   descriptionSelector: ".profile__description",
 });
 
-// opening the edit-profile modal by clicking the profile edit button (the pencil icon)
 profileEditButton.addEventListener("click", () => {
   const info = userInfo.getUserInfo();
   profileTitleInput.value = info.name;
@@ -181,23 +138,6 @@ profileEditButton.addEventListener("click", () => {
   popupEditWithForm.open();
 });
 
-//const closeButtons = document.querySelectorAll(".modal__close");
-// remove: closing will be handled by popup class
-
-//closeButtons.forEach((button) => {
-// Find the closest popup only once
-//  const popup = button.closest(".modal");
-// Set the listener
-//  button.addEventListener("click", () => closePopup(popup));
-// });
-
-// also remove submission listeners bc popupwithform will handle this
-// profileEditForm.addEventListener("submit", handleProfileEditSubmit);
-// addCardFormElement.addEventListener("submit", handleAddCardFormSubmit);
-
-// open modal
 addNewCardButton.addEventListener("click", () => {
   popupAddWithForm.open();
 });
-
-//initialCards.forEach((cardData) => renderCard(cardData));

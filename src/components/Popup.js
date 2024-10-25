@@ -17,10 +17,6 @@ export default class Popup {
   _handleEscape = (evt) => {
     if (evt.key === "Escape") {
       this.close();
-      // const openModal = document.querySelector(".modal_opened");
-      //if (openModal) {
-      //  this.close(openModal);
-      //}
     }
   };
 
@@ -33,8 +29,8 @@ export default class Popup {
         this.close();
       }
     });
-    this._closeButton.addEventListener("click", () => {
-      this.close();
-    });
+    //this._closeButton.addEventListener("click", () => {
+    // this.close();
+    // });
   }
 }

@@ -7,12 +7,6 @@ export default class PopupWithForm extends Popup {
     this._formElement = this._popupElement.querySelector(".modal__form");
     this._inputElements = this._popupElement.querySelectorAll(".modal__input");
   }
-  handleCardClick(card) {
-    this.modalImage.src = card.link;
-    this.modalImage.alt = card.name;
-    openPopup(addImageCardModal);
-    imageCaption.textContent = card.name;
-  }
   _getInputValues() {
     const inputValues = {};
     this._inputElements.forEach((input) => {
