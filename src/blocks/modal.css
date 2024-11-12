@@ -137,6 +137,9 @@
   position: relative;
 }
 
+.modal__delete-caption {
+}
+
 @media screen and (max-width: 690px) {
   .modal {
     padding-left: 19px;

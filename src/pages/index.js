@@ -4,9 +4,13 @@ import UserInfo from "../components/UserInfo.js";
 import Section from "../components/Section.js";
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 import "./index.css";
 import { initialCards, validationSettings } from "../utils/constants.js";
+import Api from "../components/Api.js";
 
+const deleteCardButton = document.querySelector(".card__delete-button");
+const deleteCardModal = document.querySelector("#delete-card-modal");
 const addCardModal = document.querySelector("#add-card-modal");
 const addCardFormElement = addCardModal.querySelector("#add-card-form");
 
@@ -44,14 +48,15 @@ const addImageCardCloseButton =
   addImageCardModal.querySelector(".modal__close");
 const imageCaption = addImageCardModal.querySelector(".modal__caption");
 const modalImage = addImageCardModal.querySelector(".modal__image");
-function handleEscape(evt) {
-  if (evt.key === "Escape") {
-    const openModal = document.querySelector(".modal_opened");
-    if (openModal) {
-      closePopup(openModal);
-    }
-  }
-}
+
+// function handleEscape(evt) {
+//   if (evt.key === "Escape") {
+//     const openModal = document.querySelector(".modal_opened");
+//     if (openModal) {
+//       closePopup(openModal);
+//     }
+//   }
+// }
 
 function handleCardClick(data) {
   popupWithImage.open(data);
@@ -62,19 +67,38 @@ function handleProfileEditSubmit(inputValues) {
   popupEditWithForm.close();
 }
 
+function handleDeleteClick(card) {
+  popupDeleteWithForm.open();
+}
+
 function handleAddCardFormSubmit(inputValues) {
   const name = inputValues.title;
   const link = inputValues["image-url"];
-
-  renderCard({ name, link });
-  popupAddWithForm.close();
-  popupAddWithForm.resetForm();
-  addFormValidator.disableButton();
+  api.addNewCard({ name, link }).then((data) => {
+    renderCard(data);
+    popupAddWithForm.close();
+    popupAddWithForm.resetForm();
+    addFormValidator.disableButton();
+  });
+  // move all the existing stuff into the .then
 }
 
 function createCard(cardData) {
-  const card = new Card(cardData, "#card-template", handleCardClick);
+  const card = new Card(
+    cardData,
+    "#card-template",
+    handleCardClick,
+    handleDeleteClick,
+    handleLikeClick
+  );
   return card.getView();
+}
+
+function handleLikeClick(card) {
+  api.updateLikes(card.isLiked, card.id).then(() => {
+    card.toggleLikeIcon();
+    card.isLiked = !card.isLiked;
+  });
 }
 
 function renderCard(cardData) {
@@ -96,6 +120,9 @@ const addFormValidator = new FormValidator(
   addCardFormElement
 );
 addFormValidator.enableValidation();
+
+const popupDeleteWithForm = new PopupWithConfirmation("#delete-card-modal");
+popupDeleteWithForm.setEventListeners();
 
 const popupEditWithForm = new PopupWithForm(
   "#profile-edit-modal",
@@ -124,8 +151,6 @@ const section = new Section({
   selector: ".cards__list",
 });
 
-section.renderItems(initialCards);
-
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   descriptionSelector: ".profile__description",
@@ -141,3 +166,35 @@ profileEditButton.addEventListener("click", () => {
 addNewCardButton.addEventListener("click", () => {
   popupAddWithForm.open();
 });
+
+//deleteCardButton.addEventListener("click", () => {
+//popupDeleteWithForm.open();
+//});
+// instantiate API
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "4e1d8109-9ece-45e8-8ccd-12c7e4a219df",
+    "Content-Type": "application/json",
+  },
+});
+
+// api
+//   .getInitialCards()
+//   .then((data) => {
+//     // data will be an array with 1 card in it
+//   })
+//   .catch((err) => {});
+
+// api
+//   .getUserInfo()
+//   .then((data) => {
+//     // data will be an array with 1 card in it
+//   })
+//   .catch((err) => {});
+
+Promise.all([api.getInitialCards(), api.getUserInfo()]).then(
+  ([cards, userData]) => {
+    section.renderItems(cards);
+  }
+);

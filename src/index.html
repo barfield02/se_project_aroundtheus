@@ -16,11 +16,13 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <img
-            src="<%=require('./images/profile.png')%>"
-            alt="Avatar"
-            class="profile__image"
-          />
+          <button class="header__logo-button">
+            <img
+              src="<%=require('./images/profile.png')%>"
+              alt="Avatar"
+              class="profile__image"
+            />
+          </button>
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button
@@ -127,7 +129,16 @@
         <p class="modal__caption"></p>
       </div>
     </div>
-
+    <div class="modal" id="delete-card-modal">
+      <div class="modal__container modal__container_type_delete">
+        <p class="modal__delete-caption">Are you sure?</p>
+        <button
+          class="modal__close"
+          id="modal-delete-card-close-button"
+        ></button>
+        <button class="delete__button" type="button">Yes</button>
+      </div>
+    </div>
     <template id="card-template">
       <li class="card">
         <img src="" class="card__image" alt="" />
