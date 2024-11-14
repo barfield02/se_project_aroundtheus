@@ -13,6 +13,7 @@ const deleteCardButton = document.querySelector(".card__delete-button");
 const deleteCardModal = document.querySelector("#delete-card-modal");
 const addCardModal = document.querySelector("#add-card-modal");
 const addCardFormElement = addCardModal.querySelector("#add-card-form");
+const editAvatarButton = document.querySelector(".header__logo-button");
 
 const cardTitleInput = addCardFormElement.querySelector(
   "#add-card-title-input"
@@ -25,6 +26,7 @@ const addNewCardButton = document.querySelector(".profile__add-button");
 
 const profileEditButton = document.querySelector("#profile-edit-button");
 const profileEditModal = document.querySelector("#profile-edit-modal");
+const avatarEditModal = document.querySelector("#profile-avatar-modal");
 const editProfileCloseButton = document.querySelector(
   "#modal-edit-close-button"
 );
@@ -37,6 +39,7 @@ const profileDescriptionInput = document.querySelector(
 
 const cardListEl = document.querySelector(".cards__list");
 const profileEditForm = profileEditModal.querySelector(".modal__form");
+const avatarEditForm = avatarEditModal.querySelector(".modal__form");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
@@ -63,8 +66,10 @@ function handleCardClick(data) {
 }
 
 function handleProfileEditSubmit(inputValues) {
+  popupEditWithForm.renderLoading(true);
   userInfo.setUserInfo(inputValues.title, inputValues.description);
   popupEditWithForm.close();
+  popupEditWithForm.renderLoading(false);
 }
 
 function handleDeleteClick(card) {
@@ -74,14 +79,39 @@ function handleDeleteClick(card) {
 function handleAddCardFormSubmit(inputValues) {
   const name = inputValues.title;
   const link = inputValues["image-url"];
+  popupAddWithForm.renderLoading(true);
   api.addNewCard({ name, link }).then((data) => {
     renderCard(data);
     popupAddWithForm.close();
     popupAddWithForm.resetForm();
     addFormValidator.disableButton();
+    popupAddWithForm.renderLoading(false);
   });
-  // move all the existing stuff into the .then
 }
+
+//const aaa = document.getElementById("aaa");
+
+function handleAvatarFormSubmit(data) {
+  popupAvatarEditForm.renderLoading(true);
+  const url = data.url;
+  api
+    .updateProfilePicture(url)
+    .then(() => {
+      userInfo.setAvatarImage({ avatar: url });
+      popupAvatarEditForm.close();
+      popupAvatarEditForm.resetForm();
+      editAvatarValidator.disableButton();
+    })
+    .catch((error) => {
+      console.error("Error updatin avatar", error);
+    })
+    .finally(() => {
+      // Put rending loading false here
+      popupAvatarEditForm.renderLoading(false);
+    });
+}
+
+const modalSubmitButton = document.querySelector(".modal__button");
 
 function createCard(cardData) {
   const card = new Card(
@@ -121,6 +151,12 @@ const addFormValidator = new FormValidator(
 );
 addFormValidator.enableValidation();
 
+const editAvatarValidator = new FormValidator(
+  validationSettings,
+  avatarEditForm
+);
+editAvatarValidator.enableValidation();
+
 const popupDeleteWithForm = new PopupWithConfirmation("#delete-card-modal");
 popupDeleteWithForm.setEventListeners();
 
@@ -141,6 +177,12 @@ const popupWithImage = new PopupWithImage({
 });
 popupWithImage.setEventListeners();
 
+const popupAvatarEditForm = new PopupWithForm(
+  "#profile-avatar-modal",
+  handleAvatarFormSubmit
+);
+popupAvatarEditForm.setEventListeners();
+
 const section = new Section({
   renderer: (item) => {
     // const card = createCard(item);
@@ -154,6 +196,7 @@ const section = new Section({
 const userInfo = new UserInfo({
   nameSelector: ".profile__title",
   descriptionSelector: ".profile__description",
+  avatarSelector: ".profile__image",
 });
 
 profileEditButton.addEventListener("click", () => {
@@ -165,6 +208,10 @@ profileEditButton.addEventListener("click", () => {
 
 addNewCardButton.addEventListener("click", () => {
   popupAddWithForm.open();
+});
+
+editAvatarButton.addEventListener("click", () => {
+  popupAvatarEditForm.open();
 });
 
 //deleteCardButton.addEventListener("click", () => {

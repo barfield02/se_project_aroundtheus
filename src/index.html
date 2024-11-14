@@ -136,9 +136,35 @@
           class="modal__close"
           id="modal-delete-card-close-button"
         ></button>
-        <button class="delete__button" type="button">Yes</button>
+        <button class="modal__button" type="button">Yes</button>
       </div>
     </div>
+
+    <div class="modal" id="profile-avatar-modal">
+      <div class="modal__container">
+        <button class="modal__close" id="edit-avatar-close-button"></button>
+        <p class="modal__heading">Change profile picture</p>
+        <form class="modal__form" id="profile-avatar-form">
+          <div class="modal__input-container">
+            <label class="modal__label">
+              <input
+                class="modal__input"
+                type="url"
+                id="profile-avatar-input"
+                name="url"
+                placeholder="Url"
+                required
+              />
+              <span class="modal__error" id="profile-avatar-input-error"></span>
+            </label>
+          </div>
+          <button class="modal__button modal__button_disabled" id="aaa">
+            Save
+          </button>
+        </form>
+      </div>
+    </div>
+
     <template id="card-template">
       <li class="card">
         <img src="" class="card__image" alt="" />

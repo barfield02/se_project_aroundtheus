@@ -86,7 +86,7 @@ export default class Api {
       return Promise.reject(`Error: ${res.status}`);
     });
   }
-  updateProfilePicture() {
+  updateProfilePicture(avatar) {
     return fetch(
       "https://around-api.en.tripleten-services.com/v1/users/me/avatar",
       {
@@ -95,6 +95,9 @@ export default class Api {
           authorization: "4e1d8109-9ece-45e8-8ccd-12c7e4a219df",
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          avatar,
+        }),
       }
     ).then((res) => {
       if (res.ok) {
