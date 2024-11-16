@@ -9,7 +9,11 @@ import "./index.css";
 import { initialCards, validationSettings } from "../utils/constants.js";
 import Api from "../components/Api.js";
 
-const deleteCardButton = document.querySelector(".card__delete-button");
+const deleteCardForm = document.querySelector("#delete-card-form");
+
+const deleteCardButton = document.querySelector(
+  "#modal-delete-card-close-button"
+);
 const deleteCardModal = document.querySelector("#delete-card-modal");
 const addCardModal = document.querySelector("#add-card-modal");
 const addCardFormElement = addCardModal.querySelector("#add-card-form");
@@ -74,6 +78,15 @@ function handleProfileEditSubmit(inputValues) {
 
 function handleDeleteClick(card) {
   popupDeleteWithForm.open();
+  popupDeleteWithForm.setConfirmAction(() => {
+    api
+      .deleteCard(card.id)
+      .then(() => {
+        card.removeCard();
+        popupDeleteWithForm.close();
+      })
+      .catch(console.error);
+  });
 }
 
 function handleAddCardFormSubmit(inputValues) {
@@ -109,6 +122,12 @@ function handleAvatarFormSubmit(data) {
       // Put rending loading false here
       popupAvatarEditForm.renderLoading(false);
     });
+}
+
+function handleDeleteCardSubmit() {
+  api.deleteCard(() => {
+    deleteCardButton.setEventListeners();
+  });
 }
 
 const modalSubmitButton = document.querySelector(".modal__button");
@@ -157,6 +176,12 @@ const editAvatarValidator = new FormValidator(
 );
 editAvatarValidator.enableValidation();
 
+const deleteCardValidator = new FormValidator(
+  validationSettings,
+  deleteCardForm
+);
+deleteCardValidator.enableValidation();
+
 const popupDeleteWithForm = new PopupWithConfirmation("#delete-card-modal");
 popupDeleteWithForm.setEventListeners();
 
@@ -182,6 +207,12 @@ const popupAvatarEditForm = new PopupWithForm(
   handleAvatarFormSubmit
 );
 popupAvatarEditForm.setEventListeners();
+
+// const popupDeleteCardForm = new PopupWithForm(
+//   "#delete-card-modal"
+//   //handleDe
+// );
+// popupDeleteCardForm.setEventListeners();
 
 const section = new Section({
   renderer: (item) => {

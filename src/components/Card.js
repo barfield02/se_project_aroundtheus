@@ -33,7 +33,7 @@ export default class Card {
       this._handleImageClick(this._data);
     });
   }
-  _handleDeleteCard() {
+  removeCard() {
     this._cardElement.remove();
   }
   toggleLikeIcon = () => {
