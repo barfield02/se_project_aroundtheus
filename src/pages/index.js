@@ -71,9 +71,11 @@ function handleCardClick(data) {
 
 function handleProfileEditSubmit(inputValues) {
   popupEditWithForm.renderLoading(true);
-  userInfo.setUserInfo(inputValues.title, inputValues.description);
-  popupEditWithForm.close();
-  popupEditWithForm.renderLoading(false);
+  api.editProfileInfo(inputValues).then((data) => {
+    userInfo.setUserInfo(data.name, data.about);
+    popupEditWithForm.close();
+    popupEditWithForm.renderLoading(false);
+  });
 }
 
 function handleDeleteClick(card) {
@@ -113,6 +115,7 @@ function handleAvatarFormSubmit(data) {
       userInfo.setAvatarImage({ avatar: url });
       popupAvatarEditForm.close();
       popupAvatarEditForm.resetForm();
+      // popupAvatarEditForm.preventDefault(evt);
       editAvatarValidator.disableButton();
     })
     .catch((error) => {
@@ -274,5 +277,7 @@ const api = new Api({
 Promise.all([api.getInitialCards(), api.getUserInfo()]).then(
   ([cards, userData]) => {
     section.renderItems(cards);
+    userInfo.setUserInfo(userData.name, userData.about);
+    userInfo.setAvatarImage(userData);
   }
 );
