@@ -8,6 +8,7 @@ export default class Api {
     return fetch("https://around-api.en.tripleten-services.com/v1/cards", {
       headers: {
         authorization: "4e1d8109-9ece-45e8-8ccd-12c7e4a219df",
+        "Content-Type": "application/json",
       },
     }).then((res) => {
       if (res.ok) {
@@ -19,11 +20,15 @@ export default class Api {
   }
 
   // GET /cards
-  getUserInfo() {
+  getUserInfo(Url) {
     return fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
       headers: {
         authorization: "4e1d8109-9ece-45e8-8ccd-12c7e4a219df",
       },
+      // body: JSON.stringify({
+      //   name: "name",
+      //   link: "Url",
+      // }),
     }).then((res) => {
       if (res.ok) {
         return res.json();
@@ -62,6 +67,12 @@ export default class Api {
         name,
         link,
       }),
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(`Error: ${res.status}`);
     });
   }
   deleteCard(id) {

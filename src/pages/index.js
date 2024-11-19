@@ -96,6 +96,7 @@ function handleAddCardFormSubmit(inputValues) {
   const link = inputValues["image-url"];
   popupAddWithForm.renderLoading(true);
   api.addNewCard({ name, link }).then((data) => {
+    console.log(data);
     renderCard(data);
     popupAddWithForm.close();
     popupAddWithForm.resetForm();
