@@ -71,11 +71,16 @@ function handleCardClick(data) {
 
 function handleProfileEditSubmit(inputValues) {
   popupEditWithForm.renderLoading(true);
-  api.editProfileInfo(inputValues).then((data) => {
-    userInfo.setUserInfo(data.name, data.about);
-    popupEditWithForm.close();
-    popupEditWithForm.renderLoading(false);
-  });
+  api
+    .editProfileInfo(inputValues)
+    .then((data) => {
+      userInfo.setUserInfo(data.name, data.about);
+      popupEditWithForm.close();
+      popupEditWithForm.renderLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error updatin avatar", error);
+    });
 }
 
 function handleDeleteClick(card) {
@@ -95,14 +100,19 @@ function handleAddCardFormSubmit(inputValues) {
   const name = inputValues.title;
   const link = inputValues["image-url"];
   popupAddWithForm.renderLoading(true);
-  api.addNewCard({ name, link }).then((data) => {
-    console.log(data);
-    renderCard(data);
-    popupAddWithForm.close();
-    popupAddWithForm.resetForm();
-    addFormValidator.disableButton();
-    popupAddWithForm.renderLoading(false);
-  });
+  api
+    .addNewCard({ name, link })
+    .then((data) => {
+      console.log(data);
+      renderCard(data);
+      popupAddWithForm.close();
+      popupAddWithForm.resetForm();
+      addFormValidator.disableButton();
+      popupAddWithForm.renderLoading(false);
+    })
+    .catch((error) => {
+      console.error("Error adding card", error);
+    });
 }
 
 //const aaa = document.getElementById("aaa");
@@ -128,11 +138,11 @@ function handleAvatarFormSubmit(data) {
     });
 }
 
-function handleDeleteCardSubmit() {
-  api.deleteCard(() => {
-    deleteCardButton.setEventListeners();
-  });
-}
+// function handleDeleteCardSubmit() {
+//   api.deleteCard(() => {
+//     deleteCardButton.setEventListeners();
+//   });
+// }
 
 const modalSubmitButton = document.querySelector(".modal__button");
 
@@ -180,11 +190,11 @@ const editAvatarValidator = new FormValidator(
 );
 editAvatarValidator.enableValidation();
 
-const deleteCardValidator = new FormValidator(
-  validationSettings,
-  deleteCardForm
-);
-deleteCardValidator.enableValidation();
+// const deleteCardValidator = new FormValidator(
+//   validationSettings,
+//   deleteCardForm
+// );
+// deleteCardValidator.enableValidation();
 
 const popupDeleteWithForm = new PopupWithConfirmation("#delete-card-modal");
 popupDeleteWithForm.setEventListeners();
@@ -251,7 +261,7 @@ editAvatarButton.addEventListener("click", () => {
 
 //deleteCardButton.addEventListener("click", () => {
 //popupDeleteWithForm.open();
-//});
+//}
 // instantiate API
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
