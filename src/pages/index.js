@@ -56,15 +56,6 @@ const addImageCardCloseButton =
 const imageCaption = addImageCardModal.querySelector(".modal__caption");
 const modalImage = addImageCardModal.querySelector(".modal__image");
 
-// function handleEscape(evt) {
-//   if (evt.key === "Escape") {
-//     const openModal = document.querySelector(".modal_opened");
-//     if (openModal) {
-//       closePopup(openModal);
-//     }
-//   }
-// }
-
 function handleCardClick(data) {
   popupWithImage.open(data);
 }
@@ -76,10 +67,12 @@ function handleProfileEditSubmit(inputValues) {
     .then((data) => {
       userInfo.setUserInfo(data.name, data.about);
       popupEditWithForm.close();
-      popupEditWithForm.renderLoading(false);
     })
     .catch((error) => {
       console.error("Error updatin avatar", error);
+    })
+    .finally(() => {
+      popupEditWithForm.renderLoading(false);
     });
 }
 
@@ -108,14 +101,14 @@ function handleAddCardFormSubmit(inputValues) {
       popupAddWithForm.close();
       popupAddWithForm.resetForm();
       addFormValidator.disableButton();
-      popupAddWithForm.renderLoading(false);
     })
     .catch((error) => {
       console.error("Error adding card", error);
+    })
+    .finally(() => {
+      popupAddWithForm.renderLoading(false);
     });
 }
-
-//const aaa = document.getElementById("aaa");
 
 function handleAvatarFormSubmit(data) {
   popupAvatarEditForm.renderLoading(true);
@@ -133,16 +126,9 @@ function handleAvatarFormSubmit(data) {
       console.error("Error updatin avatar", error);
     })
     .finally(() => {
-      // Put rending loading false here
       popupAvatarEditForm.renderLoading(false);
     });
 }
-
-// function handleDeleteCardSubmit() {
-//   api.deleteCard(() => {
-//     deleteCardButton.setEventListeners();
-//   });
-// }
 
 const modalSubmitButton = document.querySelector(".modal__button");
 
@@ -165,11 +151,8 @@ function handleLikeClick(card) {
 }
 
 function renderCard(cardData) {
-  // const cardElement = getCardElement(cardData);
-
   const cardElement = createCard(cardData);
   section.addItem(cardElement);
-  // cardListEl.prepend(cardElement);
 }
 
 const editFormValidator = new FormValidator(
@@ -189,12 +172,6 @@ const editAvatarValidator = new FormValidator(
   avatarEditForm
 );
 editAvatarValidator.enableValidation();
-
-// const deleteCardValidator = new FormValidator(
-//   validationSettings,
-//   deleteCardForm
-// );
-// deleteCardValidator.enableValidation();
 
 const popupDeleteWithForm = new PopupWithConfirmation("#delete-card-modal");
 popupDeleteWithForm.setEventListeners();
@@ -222,17 +199,8 @@ const popupAvatarEditForm = new PopupWithForm(
 );
 popupAvatarEditForm.setEventListeners();
 
-// const popupDeleteCardForm = new PopupWithForm(
-//   "#delete-card-modal"
-//   //handleDe
-// );
-// popupDeleteCardForm.setEventListeners();
-
 const section = new Section({
   renderer: (item) => {
-    // const card = createCard(item);
-
-    // section.addItem(card);
     renderCard(item);
   },
   selector: ".cards__list",
@@ -259,9 +227,6 @@ editAvatarButton.addEventListener("click", () => {
   popupAvatarEditForm.open();
 });
 
-//deleteCardButton.addEventListener("click", () => {
-//popupDeleteWithForm.open();
-//}
 // instantiate API
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -285,10 +250,12 @@ const api = new Api({
 //   })
 //   .catch((err) => {});
 
-Promise.all([api.getInitialCards(), api.getUserInfo()]).then(
-  ([cards, userData]) => {
+Promise.all([api.getInitialCards(), api.getUserInfo()])
+  .then(([cards, userData]) => {
     section.renderItems(cards);
     userInfo.setUserInfo(userData.name, userData.about);
     userInfo.setAvatarImage(userData);
-  }
-);
+  })
+  .catch((error) => {
+    console.error("Error");
+  });
